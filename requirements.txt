@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+openai-whisper
+torch
+gtts
+python-dotenv
+ffmpeg-python
+pydub
+requests
