@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AI Voice Assistant</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Intro Screen -->
+  <div class="overlay" id="intro">
+    <h1>Welcome</h1>
+    <p>Click the mic icon to start/stop recording your query.</p>
+    <button class="btn" onclick="startApp()">Get Started</button>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <div class="mic-button" id="micButton">
+      <img src="Pics/miic.png" alt="Mic Icon">
+    </div>
+  </div>
+
+  <div id="status"></div>
+  <div id="responseText" style="text-align:center; padding:20px;"></div>
+
+  <script>
+    let mediaRecorder;
+    let audioChunks = [];
+    let isRecording = false;
+
+    const micBtn = document.getElementById("micButton");
+    const status = document.getElementById("status");
+
+    function startApp() {
+      document.getElementById("intro").classList.add("fade-out");
+    }
+
+    micBtn.addEventListener("click", async () => {
+      if (!isRecording) {
+        // 🎙️ Start recording
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        mediaRecorder = new MediaRecorder(stream);
+        audioChunks = [];
+
+        mediaRecorder.ondataavailable = event => {
+          if (event.data.size > 0) {
+            audioChunks.push(event.data);
+          }
+        };
+
+        mediaRecorder.onstop = () => {
+          const blob = new Blob(audioChunks, { type: 'audio/webm' });
+          uploadToBackend(blob);
+          stream.getTracks().forEach(track => track.stop());
+        };
+
+        mediaRecorder.start();
+        isRecording = true;
+        status.textContent = "🎙️ Recording...";
+      } else {
+        // ⏹️ Stop recording
+        mediaRecorder.stop();
+        isRecording = false;
+        status.textContent = "⏹️ Processing...";
+      }
+    });
+
+    // 🔁 Send audio to backend
+    function uploadToBackend(blob) {
+      const formData = new FormData();
+      formData.append('audio', blob, 'voice.webm');
+
+      fetch('http://127.0.0.1:8000/upload', {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => response.json())
+      .then(result => {
+        document.getElementById("responseText").innerText = `🤖: ${result.reply}`;
+        status.textContent = "✅ Reply ready. Playing audio...";
+
+        // 🔊 Play TTS
+        const audio = new Audio("http://127.0.0.1:8000/speak");
+        audio.play();
+      })
+      .catch(error => {
+        status.textContent = "❌ Upload failed.";
+        console.error("Error:", error);
+      });
+    }
+  </script>
+
+</body>
+</html>
