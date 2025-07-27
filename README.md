@@ -1,6 +1,6 @@
 # AIVoiceAspire
 
-🧠 AI Voice Assistant (with Whisper + GPT + TTS)
+AI Voice Assistant (with Whisper + GPT + TTS)
 This project is a voice assistant that:
 
 Accepts voice input from the user
@@ -11,7 +11,7 @@ Gets a contextual reply from GPT (via OpenRouter API)
 
 Converts the reply into speech using gTTS
 
-🎯 Features
+# Features
 🌍 Multilingual support (transcribes and replies in the spoken language)
 
 🎤 Click once to start/stop voice recording
@@ -22,10 +22,9 @@ Converts the reply into speech using gTTS
 
 🧾 Simple HTML+JS frontend
 
-📁 Project Files
-bash
-Copy
-Edit
+# 📁 Project Files
+
+
 .
 ├── index.html           # Frontend HTML (mic UI + script)
 ├── style.css            # Frontend styling
@@ -38,19 +37,17 @@ Edit
 ├── .env                 # Secrets (OpenRouter, Telegram tokens)
 └── reply.mp3            # Generated audio response (temporary)
 🚀 Getting Started
+
 🔧 1. Install dependencies
-bash
-Copy
-Edit
+
 python -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
+
 Make sure ffmpeg is installed and available in your system path.
 
 🧪 2. Run the FastAPI Server
-bash
-Copy
-Edit
+
 uvicorn main:app --reload
 Runs at: http://127.0.0.1:8000
 
@@ -58,60 +55,30 @@ Runs at: http://127.0.0.1:8000
 Just open index.html in your browser (double-click or drag into Chrome/Edge).
 Make sure this line inside <script> points to your backend:
 
-js
-Copy
-Edit
 fetch('http://127.0.0.1:8000/upload', { ...
 🔁 If you deploy using ngrok, replace with your HTTPS URL.
 
-🤖 4. (Optional) Use the Telegram Bot
+🤖 4.Use the Telegram Bot
 Edit your .env:
-
-ini
-Copy
-Edit
 TELEGRAM_BOT_TOKEN=your_bot_token
 OPENROUTER_API_KEY=your_openrouter_key
+
 Then run:
 
-bash
-Copy
-Edit
 python telegram_bot.py
 🔑 Environment Variables
+
 Create a .env file in the root directory with:
 
-ini
-Copy
-Edit
 OPENROUTER_API_KEY=your_openrouter_api_key
 TELEGRAM_BOT_TOKEN=your_telegram_bot_token
+
 📦 Requirements
 Install via:
 
-bash
-Copy
-Edit
 pip install -r requirements.txt
-Or manually:
 
-txt
-Copy
-Edit
-fastapi
-uvicorn
-gtts
-openai-whisper
-torch
-python-dotenv
-ffmpeg-python
-requests
-python-telegram-bot==20.7
-python-multipart
-🖼 Screenshot
-
-
-🧠 Credits
+# Credits
 Whisper
 
 OpenRouter
@@ -120,13 +87,3 @@ gTTS
 
 Inspired by natural multimodal human-AI interaction
 
-Let me know if you want a version with GIF/screenshots or a live deployment badge.
-
-
-
-
-
-
-
-
-Ask ChatGPT
